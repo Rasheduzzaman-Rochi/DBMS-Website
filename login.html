@@ -10,14 +10,14 @@
 </head>
 
 <body>
-    <div class="navbar bg-base-100 shadow-sm">
+    <div class="navbar bg-base-100 shadow-sm justify-center">
         <div class="navbar-start">
           
           <a class="btn btn-ghost text-xl">shhoshamol</a>
         </div>
        
-        <div class="navbar-end">
-            <button class="btn btn-soft btn-primary bg-yellow-200 text-green-700 w-30 rounded-xl">Login</button>
+        <div class="navbar-center">
+            <button type="submit" class=" bg-green-500 text-white py-2 px-4 rounded-md mt-4 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">Login</button>
         </div>
       </div>
      <!-- Register Form -->
@@ -28,17 +28,17 @@
       <form>
         <div class="mb-4">
           <label for="username" class="block text-sm font-medium text-gray-700">UserName</label>
-          <input type="text" id="username" placeholder="UserName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <input type="text" id="username" placeholder="UserName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
         </div>
   
         <div class="mb-4">
           <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-          <input type="password" id="password" placeholder="Password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <input type="password" id="password" placeholder="Password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
         </div>
   
         <div class="mb-4">
           <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-          <input type="password" id="confirm-password" placeholder="Confirm Your Password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <input type="password" id="confirm-password" placeholder="Confirm Your Password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
         </div>
   
         <div class="mb-4">
@@ -48,18 +48,21 @@
               <span>Select Designation</span>
             </div>
             <ul class="absolute left-0 right-0 bg-white border rounded-md shadow-lg mt-1 hidden">
-              <li class="px-3 py-2 hover:bg-gray-200 cursor-pointer" value="farmer">Farmer</li>
-              <li class="px-3 py-2 hover:bg-gray-200 cursor-pointer" value="distributor">Distributor</li>
-              <li class="px-3 py-2 hover:bg-gray-200 cursor-pointer" value="transporter">Transporter</li>
-              <li class="px-3 py-2 hover:bg-gray-200 cursor-pointer" value="consumer">Consumer</li>
+              <li class="px-3 py-2 hover:bg-green-200 cursor-pointer" value="farmer">Farmer</li>
+              <li class="px-3 py-2 hover:bg-green-200 cursor-pointer" value="distributor">Distributor</li>
+              <li class="px-3 py-2 hover:bg-green-200 cursor-pointer" value="transporter">Transporter</li>
+              <li class="px-3 py-2 hover:bg-green-200 cursor-pointer" value="consumer">Consumer</li>
             </ul>
           </div>
         </div>
   
-        <button type="submit" class="w-full bg-blue-500 text-white py-2 px-4 rounded-md mt-4 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">Register</button>
+        <button type="submit" 
+        id="registerBtn"
+        class="
+        w-full bg-green-500 text-white py-2 px-4 rounded-md mt-4 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">Register</button>
       </form>
     </div>
-  </div>
+    </div>
    
       
 

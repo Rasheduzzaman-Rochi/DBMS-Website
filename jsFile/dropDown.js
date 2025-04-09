@@ -17,3 +17,10 @@ optionsList.addEventListener('click', (e) => {
   // Hide the options list after an option is selected
   optionsList.classList.add('hidden'); 
 });
+
+//to redirect from register to login
+document.getElementById("registerBtn").addEventListener("click", function(event) {
+    event.preventDefault();
+    window.location.href = "login2.html"
+  });
+  
