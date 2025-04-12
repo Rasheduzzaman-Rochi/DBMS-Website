@@ -23,3 +23,12 @@ document.getElementById("registerBtn").addEventListener("click", function(event)
     window.location.href = "login2.html"
   });
   
+
+ 
+//to redirect from land to register
+document.getElementById("landRegBtn").addEventListener("click", function(event) {
+  event.preventDefault();
+  console.log("button is clicked")
+  window.location.href = "login.html"
+});
+
