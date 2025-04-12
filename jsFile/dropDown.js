@@ -2,8 +2,7 @@
 const dropdown = document.querySelector('#designation'); 
 
 // Get the next sibling element (the list of options) of the dropdown
-const optionsList = dropdown.nextElementSibling; // This gets the <ul> that contains the options
-
+const optionsList = dropdown.nextElementSibling;
 // Add an event listener to the dropdown to toggle the visibility of the options list
 dropdown.addEventListener('click', () => {
   optionsList.classList.toggle('hidden'); // When clicked, we show or hide the options
