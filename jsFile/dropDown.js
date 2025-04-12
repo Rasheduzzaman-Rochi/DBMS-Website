@@ -18,9 +18,10 @@ optionsList.addEventListener('click', (e) => {
 });
 
 //to redirect from register to login
-document.getElementById("registerBtn").addEventListener("click", function(event) {
+document.getElementById("loginBtn").addEventListener("click", function(event) {
     event.preventDefault();
-    window.location.href = "login2.html"
+    console.log("button is clicked")
+    window.location.href = "login.html"
   });
   
 
@@ -31,4 +32,25 @@ document.getElementById("landRegBtn").addEventListener("click", function(event) 
   console.log("button is clicked")
   window.location.href = "login.html"
 });
+
+
+// register button logic
+const registerBtn = document.getElementById("registerBtn");
+const designationSelect = document.getElementById("designation");
+
+if (registerBtn && designationSelect) {
+  registerBtn.addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent form submission
+
+    const designation = designationSelect.value;
+
+    if (designation === "farmer") {
+      window.location.href = "farmerDashBoard.html";
+    } else if (!designation) {
+      alert("Please select a designation.");
+    } else {
+      alert("Only 'Farmer' designation is allowed to proceed to Farmer Dashboard for now.");
+    }
+  });
+}
 
