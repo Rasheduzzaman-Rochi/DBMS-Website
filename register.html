@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register form</title>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body>
+    <div class="navbar bg-base-100 shadow-sm justify-center">
+        <div class="navbar-start">
+          
+          <div class="flex items-center space-x-2">
+            <img src="https://img.icons8.com/color/48/000000/farm.png" alt="logo" class="w-10 h-10">
+            <span class="text-xl font-bold text-green-700"> শস্য শ্যামল
+            </span>
+          </div>
+        </div>
+       
+        <div class="navbar-center">
+            <button type="submit" class=" bg-green-500 text-white py-2 px-4 rounded-md mt-4 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">Login</button>
+        </div>
+      </div>
+     <!-- Register Form -->
+    <div class="flex justify-center items-center min-h-screen bg-gray-100">
+     <div class="bg-white p-6 rounded-lg shadow-lg w-96">
+      <h1 class="text-2xl font-bold mb-4 text-center">Register</h1>
+  
+      <form>
+        <div class="mb-4">
+          <label for="username" class="block text-sm font-medium text-gray-700">UserName</label>
+          <input type="text" id="username" placeholder="UserName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+        </div>
+  
+        <div class="mb-4">
+          <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+          <input type="password" id="password" placeholder="Password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+        </div>
+  
+        <div class="mb-4">
+          <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+          <input type="password" id="confirm-password" placeholder="Confirm Your Password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+        </div>
+  
+        <div class="mb-4">
+          <label for="designation" class="block text-sm font-medium text-gray-700">Designation</label>
+          <div class="relative">
+            <div id="designation" class="border px-3 py-2 rounded-md cursor-pointer text-gray-500">
+              <span>Select Designation</span>
+            </div>
+            <ul class="absolute left-0 right-0 bg-white border rounded-md shadow-lg mt-1 hidden">
+              <li class="px-3 py-2 hover:bg-green-200 cursor-pointer" value="farmer">Farmer</li>
+              <li class="px-3 py-2 hover:bg-green-200 cursor-pointer" value="distributor">Distributor</li>
+              <li class="px-3 py-2 hover:bg-green-200 cursor-pointer" value="transporter">Transporter</li>
+              <li class="px-3 py-2 hover:bg-green-200 cursor-pointer" value="consumer">Consumer</li>
+            </ul>
+          </div>
+        </div>
+  
+        <button type="submit" 
+        id="registerBtn"
+        class="
+        w-full bg-green-500 text-white py-2 px-4 rounded-md mt-4 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">Register</button>
+      </form>
+    </div>
+    </div>
+   
+      
+
+
+        
+      
+      
+
+
+    <script src="jsFile/dropDown.js"></script>
+</body>
+</html>
