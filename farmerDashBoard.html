@@ -10,25 +10,53 @@
     body {
       font-family: 'Inter', sans-serif;
     }
+
+    /* Custom Styles */
+    .navbar {
+      background-color: #2F6A37; /* Same green used for "Farmer Dashboard" */
+      color: white; /* White text */
+    }
+
+    .navbar .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: white; /* Highlight the logo with white color */
+    }
+
+    .navbar .navbar-center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .navbar .navbar-center .text-xl {
+      color: white; /* Ensure the text inside the navbar is white */
+    }
+
+    /* Top bar styles for messages and notifications */
+    .navbar .navbar-center button {
+      color: white;
+    }
+
+    .navbar .navbar-center button:hover {
+      color: #e0e0e0; /* Light gray when hovering */
+    }
+
   </style>
 </head>
 <body class="bg-green-50">
     <div class="navbar bg-base-100 shadow-sm justify-center">
         <div class="navbar-center">
-          
           <div class="flex items-center justify-center space-x-2">
-            <img src="https://img.icons8.com/color/48/000000/farm.png" alt="logo" class="w-10 h-10">
-            <span class="text-xl font-bold text-green-700"> শস্য শ্যামল
-            </span>
+            <img src="assets/logo.svg" alt="Logo" class="w-14 h-14" />
+            <span class="text-xl font-bold logo">শস্য শ্যামলা</span>
           </div>
         </div>
-       
-      
-      </div>
+    </div>
 
   <div class="p-6">
     <!-- Navbar -->
-    <nav class="bg-green-700 text-white px-6 py-4 rounded-lg shadow mb-6 flex justify-between items-center">
+    <nav class="bg-[#2F6A37] text-white px-6 py-4 rounded-lg shadow mb-6 flex justify-between items-center">
       <h1 class="text-2xl font-bold">🌾 Farmer Dashboard</h1>
       <div class="flex items-center space-x-6">
         <div class="relative">
