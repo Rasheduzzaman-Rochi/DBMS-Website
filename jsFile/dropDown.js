@@ -54,3 +54,11 @@ if (registerBtn && designationSelect) {
   });
 }
 
+document.getElementById("inventory").addEventListener("click", function(event) {
+  event.preventDefault();
+  console.log("button is clicked")
+  window.location.href = "inventory.html"
+});
+
+
+
