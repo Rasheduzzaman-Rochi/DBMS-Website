@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Storage Monitor - Greenhouse Theme</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Custom Styles */
+    .navbar {
+      background-color: #2F6A37;
+      color: white;
+    }
+
+    .navbar .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+    }
+
+    .navbar .navbar-center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .navbar .navbar-center .text-xl {
+      color: white;
+    }
+  </style>
+</head>
+
+<body class="bg-green-50">
+  <div class="navbar bg-base-100 shadow-sm justify-center">
+    <div class="navbar-center">
+      <div class="flex items-center justify-center space-x-2">
+        <img src="assets/logo.svg" alt="Logo" class="w-14 h-14" />
+        <span class="text-xl font-bold logo">শস্য শ্যামলা</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-6">
+    <!-- Navbar -->
+    <nav class="bg-[#2F6A37] text-white px-6 py-4 rounded-lg shadow mb-6 flex justify-between items-center">
+      <h1 class="text-2xl font-bold">👨‍🌾 Storage Monitor</h1>
+      <div class="flex items-center space-x-6">
+        <div class="relative">
+          <button class="hover:text-gray-200">💬 Messages</button>
+          <span class="absolute -top-2 -right-3 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">3</span>
+        </div>
+        <div class="relative">
+          <button class="hover:text-gray-200">🔔 Notifications</button>
+          <span class="absolute -top-2 -right-3 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">5</span>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Data Container Section -->
+    <div class="space-y-4">
+      <div class="bg-green-100 p-4 rounded-lg shadow-md">
+        <p class="text-lg">Storage Temperature: <span id="temperature" class="font-bold">22°C</span></p>
+        <p class="text-lg text-red-600" id="temperature-alert">Safe</p>
+      </div>
+
+      <div class="bg-green-100 p-4 rounded-lg shadow-md">
+        <p class="text-lg">Humidity: <span id="humidity" class="font-bold">65%</span></p>
+        <p class="text-lg text-red-600" id="humidity-alert">Safe</p>
+      </div>
+
+      <div class="bg-green-100 p-4 rounded-lg shadow-md">
+        <p class="text-lg">Last Checked: <span id="last-checked" class="font-bold">2024-04-15 10:00 AM</span></p>
+      </div>
+    </div>
+
+    <!-- Button to Update Storage Status -->
+    <button onclick="updateStorageStatus()" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 mt-4">Update Storage Status</button>
+
+    <!-- Inventory Table without Serial Numbers -->
+    <div class="bg-white p-6 rounded-lg shadow-md mt-6">
+      <h3 class="text-xl font-semibold text-green-700 mb-4">Inventory Tracking</h3>
+      <table class="min-w-full table-auto border-collapse bg-white border border-gray-200 rounded-lg shadow-md">
+        <thead class="bg-green-100">
+          <tr>
+            <th class="py-2 px-4 border-b text-center">Type</th>
+            <th class="py-2 px-4 border-b text-center">Quantity</th>
+            <th class="py-2 px-4 border-b text-center">Harvest Date</th>
+            <th class="py-2 px-4 border-b text-center">Storage Location</th>
+          </tr>
+        </thead>
+        <tbody id="inventory-list">
+          <!-- Inventory items will be added here dynamically -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Simulating inventory tracking
+    const inventoryData = [
+      { type: 'Carrots', quantity: 100, harvestDate: '2024-04-20', location: 'Cool Storage' },
+      { type: 'Tomatoes', quantity: 50, harvestDate: '2024-04-18', location: 'Room Temperature' },
+      { type: 'Lettuce', quantity: 75, harvestDate: '2024-04-15', location: 'Cool Storage' }
+    ];
+
+    // Function to display inventory data
+    function displayInventory() {
+      const inventoryList = document.getElementById('inventory-list');
+      inventoryList.innerHTML = '';
+      inventoryData.forEach(item => {
+        const row = `<tr>
+          <td class="py-2 px-4 border-b text-center">${item.type}</td>
+          <td class="py-2 px-4 border-b text-center">${item.quantity}</td>
+          <td class="py-2 px-4 border-b text-center">${item.harvestDate}</td>
+          <td class="py-2 px-4 border-b text-center">${item.location}</td>
+        </tr>`;
+        inventoryList.innerHTML += row;
+      });
+    }
+
+    // Update storage status (real-time mock data)
+    function updateStorageStatus() {
+      const newTemperature = Math.floor(Math.random() * 10) + 18; // Random between 18°C and 28°C
+      const newHumidity = Math.floor(Math.random() * 20) + 55; // Random between 55% and 75%
+
+      document.getElementById('temperature').textContent = `${newTemperature}°C`;
+      document.getElementById('humidity').textContent = `${newHumidity}%`;
+      document.getElementById('last-checked').textContent = '2024-04-15 12:00 PM';
+
+      // Check if temperature is outside safe range (e.g., 20°C to 25°C)
+      if (newTemperature < 20 || newTemperature > 25) {
+        document.getElementById('temperature-alert').textContent = "Unsafe";
+        document.getElementById('temperature-alert').classList.add('text-red-600');
+      } else {
+        document.getElementById('temperature-alert').textContent = "Safe";
+        document.getElementById('temperature-alert').classList.remove('text-red-600');
+      }
+
+      // Check if humidity is outside safe range (e.g., 60% to 70%)
+      if (newHumidity < 60 || newHumidity > 70) {
+        document.getElementById('humidity-alert').textContent = "Unsafe";
+        document.getElementById('humidity-alert').classList.add('text-red-600');
+      } else {
+        document.getElementById('humidity-alert').textContent = "Safe";
+        document.getElementById('humidity-alert').classList.remove('text-red-600');
+      }
+    }
+
+    // Initialize inventory display
+    displayInventory();
+  </script>
+
+</body>
+
+</html>
