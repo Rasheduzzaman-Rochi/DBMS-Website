@@ -53,11 +53,11 @@ if (registerBtn && designationSelect) {
     }
   });
 }
-
+//dash board to inventory
 document.getElementById("inventory").addEventListener("click", function(event) {
   event.preventDefault();
   console.log("button is clicked")
-  window.location.href = "inventory.html"
+  window.location.href = "./inventory.html"
 });
 
 
