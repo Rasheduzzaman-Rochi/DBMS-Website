@@ -8,7 +8,7 @@ document.getElementById("logout").addEventListener("click",function() {
 document.getElementById("inventory").addEventListener("click", function(event) {
     event.preventDefault();
     console.log("button is clicked")
-    window.location.href = "./inventory.html"
+    window.location.href = "inventory.html"
   });
 
   document.getElementById("storageMonitor").addEventListener("click", function(event) {
@@ -38,4 +38,11 @@ document.getElementById("inventory").addEventListener("click", function(event) {
     event.preventDefault();
     console.log("button is clicked")
     window.location.href = "./reportsAndImprovement.html"
+  });
+
+  
+  document.getElementById("home").addEventListener("click", function(event) {
+    event.preventDefault();
+    console.log("button is clicked")
+    window.location.href = "./index.html"
   });
