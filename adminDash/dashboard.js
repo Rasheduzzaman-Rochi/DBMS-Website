@@ -41,8 +41,15 @@ document.getElementById("inventory").addEventListener("click", function(event) {
   });
 
   
-  document.getElementById("home").addEventListener("click", function(event) {
+
+
+  document.getElementById("farmer").addEventListener("click", function(event) {
     event.preventDefault();
     console.log("button is clicked")
-    window.location.href = "./index.html"
+    window.location.href = "./farmerDashBoard.html"
+  });
+  document.getElementById("transport").addEventListener("click", function(event) {
+    event.preventDefault();
+    console.log("button is clicked")
+    window.location.href = "./transporterDash.html"
   });
