@@ -1,13 +1,10 @@
 <?php
 include "../db.php";
 
-<<<<<<< HEAD
-// Fetch alerts from database
+
+
 $query = "SELECT * FROM alert";
-=======
-// Fetch data for the table
-$query = "SELECT * FROM alerts;";
->>>>>>> a0d30bea43bb7373cd9c0d65c646c2aed675edc5
+
 $result = mysqli_query($conn, $query);
 
 // Handle Update Action
