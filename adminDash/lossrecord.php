@@ -2,7 +2,7 @@
 include "../db.php";
 
 // Fetch data for the table
-$query = "SELECT * FROM lossrecord;";
+$query = "SELECT * FROM loss_record;";
 $result = mysqli_query($conn, $query);
 
 // Handle Update Action
