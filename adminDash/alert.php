@@ -2,7 +2,7 @@
 include "../db.php"; // Use your existing database connection
 
 // Fetch alerts from database
-$query = "SELECT * FROM alerts";
+$query = "SELECT * FROM alert";
 $result = mysqli_query($conn, $query);
 
 // Handle actions
