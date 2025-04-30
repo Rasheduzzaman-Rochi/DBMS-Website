@@ -1,3 +1,52 @@
+
+<?php
+include "../db.php";
+
+// Fetch data for the table
+$query = "SELECT * FROM recent_sales;";
+$result = mysqli_query($conn, $query);
+
+// Handle Update Action
+if (isset($_POST['update'])) {
+    $product = $_POST['product'];
+    $quantity = $_POST['quantity'];
+    $amount = $_POST['amount'];
+    $soldTo = $_POST['soldTo'];
+    $date = $_POST['date'];
+
+    $updateQuery = "UPDATE recent_sales SET quantity = '$quantity', amount = '$amount', soldTo = '$soldTo', date = '$date' WHERE product = '$product';";
+    if (mysqli_query($conn, $updateQuery)) {
+        echo json_encode(["status" => "success", "message" => "Data updated successfully"]);
+    } else {
+        echo json_encode(["status" => "error", "message" => "Update failed"]);
+    }
+    exit;
+}
+
+// Handle Delete Action
+if (isset($_POST['delete'])) {
+    $product = $_POST['product'];
+    $deleteQuery = "DELETE FROM recent_sales WHERE product = '$product';";
+    if (mysqli_query($conn, $deleteQuery)) {
+        echo json_encode(["status" => "success", "message" => "Data deleted successfully"]);
+    } else {
+        echo json_encode(["status" => "error", "message" => "Delete failed"]);
+    }
+    exit;
+}
+
+// Handle Add New Data
+if (isset($_POST['add'])) {
+    $newproduct = $_POST['newproduct'];
+    $newquantity = $_POST['newquantity'];
+    $newamount = $_POST['newamount'];
+    $newsoldTo = $_POST['newsoldTo'];
+    $newdate = $_POST['newdate'];
+
+    $addQuery = "INSERT INTO recent_sales (product, quantity, amount, soldTo, date) VALUES ('$newWarehouseId', '$newLocation', '$newTemperature', '$newHumidity', '$newStatus');";
+    mysqli_query($conn, $addQuery);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -106,6 +155,7 @@
 
 
     <!-- Sales Table -->
+    
     <section class="bg-white p-6 rounded-xl shadow">
       <h2 class="text-xl font-semibold text-gray-700 mb-4">Recent Sales</h2>
       <div class="overflow-x-auto">
@@ -161,6 +211,7 @@
             
               </td>
             </tr>
+           
           </tbody>
         </table>
       </div>
