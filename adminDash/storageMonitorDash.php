@@ -13,14 +13,24 @@ if (isset($_POST['update'])) {
     $status = $_POST['status'];
 
     $updateQuery = "UPDATE warehouse SET temperature = '$temperature', humidity = '$humidity', status = '$status' WHERE wareHouseId = '$warehouseId';";
-    mysqli_query($conn, $updateQuery);
+    if (mysqli_query($conn, $updateQuery)) {
+        echo json_encode(["status" => "success", "message" => "Data updated successfully"]);
+    } else {
+        echo json_encode(["status" => "error", "message" => "Update failed"]);
+    }
+    exit;
 }
 
 // Handle Delete Action
 if (isset($_POST['delete'])) {
     $warehouseId = $_POST['warehouseId'];
     $deleteQuery = "DELETE FROM warehouse WHERE wareHouseId = '$warehouseId';";
-    mysqli_query($conn, $deleteQuery);
+    if (mysqli_query($conn, $deleteQuery)) {
+        echo json_encode(["status" => "success", "message" => "Data deleted successfully"]);
+    } else {
+        echo json_encode(["status" => "error", "message" => "Delete failed"]);
+    }
+    exit;
 }
 
 // Handle Add New Data
@@ -45,6 +55,7 @@ if (isset($_POST['add'])) {
     <title>Storage Monitor - Greenhouse Theme</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -80,6 +91,55 @@ if (isset($_POST['add'])) {
             max-width: 30ch;
             width: 100%;
         }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        .action-buttons button {
+            margin: 0 5px;
+            padding: 6px 10px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .action-buttons .update-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .action-buttons .delete-btn {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .storage-columns input {
+            text-align: center;
+        }
     </style>
 </head>
 
@@ -94,27 +154,10 @@ if (isset($_POST['add'])) {
     </div>
 
     <div class="p-6">
-        <!-- Navbar -->
         <nav class="bg-[#2F6A37] text-white px-6 py-4 rounded-lg shadow mb-6 flex justify-between items-center">
             <h1 class="text-2xl font-bold">👨‍🌾 Storage Monitor</h1>
         </nav>
 
-        <!-- Storage Condition UI -->
-        <div class="bg-green-100 p-4 rounded-lg shadow-md">
-            <p class="text-lg">Storage Temperature: <span id="temperature" class="font-bold">22°C</span></p>
-            <p class="text-lg text-red-600" id="temperature-alert">Safe</p>
-        </div>
-
-        <div class="bg-green-100 p-4 rounded-lg shadow-md">
-            <p class="text-lg">Humidity: <span id="humidity" class="font-bold">65%</span></p>
-            <p class="text-lg text-red-600" id="humidity-alert">Safe</p>
-        </div>
-
-        <div class="bg-green-100 p-4 rounded-lg shadow-md">
-            <p class="text-lg">Last Checked: <span id="last-checked" class="font-bold">2024-04-15 10:00 AM</span></p>
-        </div>
-
-        <!-- Button to Add New Data (Simulating the "Update Storage Status") -->
         <form method="POST">
             <div class="bg-white p-6 rounded-lg shadow-md mt-6">
                 <h3 class="text-xl font-semibold text-green-700 mb-4">Add New Storage Data</h3>
@@ -137,23 +180,21 @@ if (isset($_POST['add'])) {
             </div>
         </form>
 
-        <!-- Search Bar Below Update Button -->
         <div class="search-bar mt-6">
             <input type="text" id="searchInput" class="px-4 py-2 border border-gray-300 rounded-lg" placeholder="Enter Warehouse ID to search" oninput="searchByID()">
         </div>
 
-        <!-- Storage Condition Table -->
         <div class="bg-white p-6 rounded-lg shadow-md mt-6">
             <h3 class="text-xl font-semibold text-green-700 mb-4">Storage Condition</h3>
-            <table class="min-w-full table-auto border-collapse bg-white border border-gray-200 rounded-lg shadow-md">
+            <table class="min-w-full">
                 <thead class="bg-green-100">
                     <tr>
-                        <th class="py-2 px-4 border-b text-center">WarehouseID</th>
-                        <th class="py-2 px-4 border-b text-center">WarehouseLocation</th>
-                        <th class="py-2 px-4 border-b text-center">Storage Temperature</th>
-                        <th class="py-2 px-4 border-b text-center">Humidity</th>
-                        <th class="py-2 px-4 border-b text-center">Status</th>
-                        <th class="py-2 px-4 border-b text-center">Action</th>
+                        <th>WarehouseID</th>
+                        <th>WarehouseLocation</th>
+                        <th>Storage Temperature</th>
+                        <th>Humidity</th>
+                        <th>Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -161,23 +202,23 @@ if (isset($_POST['add'])) {
                     while($row = $result->fetch_assoc()) {
                     ?>
                         <tr>
-                            <form method="POST">
-                                <td class="py-2 px-4 border-b text-center"><?=  $row['wareHouseId'] ?>
+                            <form method="POST" class="ajax-form">
+                                <td><?=  $row['wareHouseId'] ?>
                                     <input type="hidden" name="warehouseId" value="<?= $row['wareHouseId'] ?>">
                                 </td>
-                                <td class="py-2 px-4 border-b text-center"><?=  $row['wareHouseLocation'] ?></td>
-                                <td class="py-2 px-4 border-b text-center">
-                                    <input type="text" name="temperature" value="<?=  $row['temperature'] ?>" class="w-full">
+                                <td><?=  $row['wareHouseLocation'] ?></td>
+                                <td class="storage-columns">
+                                    <input type="text" name="temperature" value="<?=  $row['temperature'] ?>">
                                 </td>
-                                <td class="py-2 px-4 border-b text-center">
-                                    <input type="text" name="humidity" value="<?=  $row['humidity'] ?>" class="w-full">
+                                <td class="storage-columns">
+                                    <input type="text" name="humidity" value="<?=  $row['humidity'] ?>">
                                 </td>
-                                <td class="py-2 px-4 border-b text-center">
-                                    <input type="text" name="status" value="<?=  $row['status'] ?>" class="w-full">
+                                <td class="storage-columns">
+                                    <input type="text" name="status" value="<?=  $row['status'] ?>">
                                 </td>
-                                <td class="py-2 px-4 border-b text-center">
-                                    <button type="submit" name="update" class="text-blue-500 hover:text-blue-700">Update</button>
-                                    <button type="submit" name="delete" class="text-red-500 hover:text-red-700 ml-2">🗑️ Delete</button>
+                                <td class="action-buttons">
+                                    <button type="button" class="update-btn update-btn-action">Update</button>
+                                    <button type="button" class="delete-btn delete-btn-action">🗑️ Delete</button>
                                 </td>
                             </form>
                         </tr>
@@ -194,16 +235,49 @@ if (isset($_POST['add'])) {
         function searchByID() {
             const searchInput = document.getElementById('searchInput').value.toUpperCase();
             const rows = document.querySelectorAll('table tbody tr');
-
             rows.forEach(row => {
                 const warehouseID = row.querySelector('td').innerText.toUpperCase();
-                if (warehouseID.includes(searchInput)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
+                row.style.display = warehouseID.includes(searchInput) ? '' : 'none';
             });
         }
+
+        // Update the data using AJAX
+        $(".update-btn-action").on("click", function() {
+            var form = $(this).closest('form'); // Get the closest form
+            $.ajax({
+                url: '', // Same page for handling
+                method: 'POST',
+                data: form.serialize() + '&update=true',
+                success: function(response) {
+                    var data = JSON.parse(response);
+                    if (data.status === 'success') {
+                        alert(data.message); // Show success message
+                        location.reload(); // Reload the page to show updated data
+                    } else {
+                        alert(data.message); // Show error message
+                    }
+                }
+            });
+        });
+
+        // Delete the data using AJAX
+        $(".delete-btn-action").on("click", function() {
+            var form = $(this).closest('form');
+            $.ajax({
+                url: '', 
+                method: 'POST',
+                data: form.serialize() + '&delete=true',
+                success: function(response) {
+                    var data = JSON.parse(response);
+                    if (data.status === 'success') {
+                        alert(data.message); // Show success message
+                        location.reload(); // Reload the page to show updated data
+                    } else {
+                        alert(data.message); // Show error message
+                    }
+                }
+            });
+        });
     </script>
 </body>
 
