@@ -34,11 +34,8 @@ if (isset($_POST['update'])) {
     if (count($updateFields) > 0) {
         $updateQuery = "UPDATE warehouse SET " . implode(', ', $updateFields) . " WHERE warehouseId = '$warehouseId';";
 
-        if (mysqli_query($conn, $updateQuery)) {
-            echo json_encode(["status" => "success", "message" => "Data updated successfully"]);
-        } else {
-            echo json_encode(["status" => "error", "message" => "Update failed"]);
-        }
+        mysqli_query($conn, $updateQuery);
+        header("Location: " . $_SERVER['PHP_SELF']);
     } else {
         echo json_encode(["status" => "error", "message" => "No data to update"]);
     }
@@ -81,6 +78,7 @@ if (isset($_POST['add'])) {
 
     $addQuery = "INSERT INTO warehouse (warehouseId, warehouseLocation, temperature, humidity, status) VALUES ('$newWarehouseId', '$newLocation', '$newTemperature', '$newHumidity', '$newStatus');";
     mysqli_query($conn, $addQuery);
+    header("Location: " . $_SERVER['PHP_SELF']);
 }
 ?>
 
@@ -261,7 +259,8 @@ if (isset($_POST['add'])) {
                                 </td>
                                 <td class="action-buttons">
                                     <button type="submit" name="update">Update</button>
-                                    <button data-id="<?= $row['wareHouseId'] ?>" type="button" class="delete-btn delete-btn-action">🗑️ Delete</button>
+                                    <button data-id="<?= $row['wareHouseId'] ?>" type="button"
+                                        class="delete-btn delete-btn-action">🗑️ Delete</button>
                                 </td>
                             </form>
                         </tr>
