@@ -1,211 +1,160 @@
 <?php
+// Include your database connection
 include "../db.php";
 
-// Fetch data for the table
-$query = "SELECT * FROM warehouse;";
-$result = mysqli_query($conn, $query);
+$method = $_SERVER['REQUEST_METHOD'];
+
+if ($method == 'POST') {
+ $harvestBatchId = $_POST['harvestBatchId'];
+ $productId = $_POST['productId'];
+ $farmerId = $_POST['farmerId'];
+ $productionDate = $_POST['productionDate'];
+ $expiryDate = $_POST['expiryDate'];
+ $ReasonsForDamageDetails = $_POST['ReasonsForDamageDetails'];
+ $quantity = $_POST['quantity'];
+ $unitPrice = $_POST['unitPrice'];
+
+ $query = "INSERT INTO harvest_batch (harvestBatchId, productID, farmerID, productionDate, expiryDate, ReasonsForDamageDetails, quantity, unitPrice)
+ VALUES ('$harvestBatchId', '$productId', '$farmerId', '$productionDate', '$expiryDate', '$ReasonsForDamageDetails', '$quantity', '$unitPrice');";
+ mysqli_query($conn, $query);
+ header("Location: " . $_SERVER['PHP_SELF']);
+}
 
 // Handle Update Action
 if (isset($_POST['update'])) {
-    $warehouseId = $_POST['warehouseId'];
-    $temperature = $_POST['temperature'];
-    $humidity = $_POST['humidity'];
-    $status = $_POST['status'];
+ $harvestBatchId = $_POST['harvestBatchId'];
+ $productId = $_POST['productId'];
+ $farmerId = $_POST['farmerId'];
+ $productionDate = $_POST['productionDate'];
+ $expiryDate = $_POST['expiryDate'];
+ $ReasonsForDamageDetails = $_POST['ReasonsForDamageDetails'];
+ $quantity = $_POST['quantity'];
+ $unitPrice = $_POST['unitPrice'];
 
-    $updateQuery = "UPDATE warehouse SET temperature = '$temperature', humidity = '$humidity', status = '$status' WHERE wareHouseId = '$warehouseId';";
-    if (mysqli_query($conn, $updateQuery)) {
-        echo json_encode(["status" => "success", "message" => "Data updated successfully"]);
-    } else {
-        echo json_encode(["status" => "error", "message" => "Update failed"]);
-    }
-    exit;
+ $updateQuery = "UPDATE harvest_batch SET 
+ productId = '$productId',
+ farmerId = '$farmerId',
+ productionDate = '$productionDate',
+ expiryDate = '$expiryDate',
+ ReasonsForDamageDetails = '$ReasonsForDamageDetails',
+ quantity = '$quantity',
+ unitPrice = '$unitPrice'
+ WHERE harvestBatchId = '$harvestBatchId';";
+ 
+ mysqli_query($conn, $updateQuery);
+ header("Location: " . $_SERVER['PHP_SELF']);
+ exit;
 }
 
 // Handle Delete Action
-if (isset($_POST['delete'])) {
-    $warehouseId = $_POST['warehouseId'];
-    $deleteQuery = "DELETE FROM warehouse WHERE wareHouseId = '$warehouseId';";
-    if (mysqli_query($conn, $deleteQuery)) {
-        echo json_encode(["status" => "success", "message" => "Data deleted successfully"]);
-    } else {
-        echo json_encode(["status" => "error", "message" => "Delete failed"]);
-    }
-    exit;
-}
+if (isset($_POST['delete']) && isset($_POST['harvestBatchId'])) {
+ $harvestBatchId = $_POST['harvestBatchId'];
 
-// Handle Add New Data
-if (isset($_POST['add'])) {
-    $newWarehouseId = $_POST['newWarehouseId'];
-    $newLocation = $_POST['newLocation'];
-    $newTemperature = $_POST['newTemperature'];
-    $newHumidity = $_POST['newHumidity'];
-    $newStatus = $_POST['newStatus'];
-
-    $addQuery = "INSERT INTO warehouse (wareHouseId, wareHouseLocation, temperature, humidity, status) VALUES ('$newWarehouseId', '$newLocation', '$newTemperature', '$newHumidity', '$newStatus');";
-    mysqli_query($conn, $addQuery);
+ $deleteQuery = "DELETE FROM harvest_batch WHERE harvestBatchId = '$harvestBatchId';";
+ mysqli_query($conn, $deleteQuery);
+ header("Location: " . $_SERVER['PHP_SELF']);
+ exit;
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Inventory Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+ <meta charset="UTF-8">
+ <title>Inventory Dashboard</title>
+ <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="flex h-screen bg-gray-100">
 
-  <!-- Sidebar -->
-  <aside class="w-64 bg-green-900 text-white p-5">
-    <div class="mb-10 flex items-center gap-4">
-      <!-- Updated logo path and size -->
-      <img src="./logo.svg" alt="Logo" class="w-14 h-14" />
-      <!-- Shifted text slightly right -->
-      <h1 class="text-lg font-bold ml-2">শস্য শ্যামলা</h1>
-    </div>
-    <nav class="space-y-4">
-      <div class="bg-green-700 rounded px-3 py-2">Dashboard</div>
-      <div id="home"
-       class="hover:bg-green-800 rounded px-3 py-2 cursor-pointer">Home</div>
-    
-      <div id="logout"
-       class="mt-10 hover:bg-red-800 rounded px-3 py-2 cursor-pointer">Logout</div>
-    </nav>
-  </aside>
+ <!-- Sidebar -->
+ <aside class="w-64 bg-green-900 text-white p-5">
+ <div class="mb-10 flex items-center gap-4">
+ <!-- Updated logo path and size -->
+ <img src="./logo.svg" alt="Logo" class="w-14 h-14" />
+ <!-- Shifted text slightly right -->
+ <h1 class="text-lg font-bold ml-2">শস্য শ্যামলা</h1>
+ </div>
+ <nav class="space-y-4">
+ <div class="bg-green-700 rounded px-3 py-2">Dashboard</div>
+ <div id="home"
+ class="hover:bg-green-800 rounded px-3 py-2 cursor-pointer">Home</div>
+ 
+ <div id="logout"
+ class="mt-10 hover:bg-red-800 rounded px-3 py-2 cursor-pointer">Logout</div>
+ </nav>
+ </aside>
 
-  <!-- Main Content -->
+ <!-- Main Content -->
  <!-- Main Content -->
 <main class="flex-1 p-8 overflow-y-auto">
-  <h1 class="text-3xl font-bold mb-6">Perishable Goods Inventory</h1>
+ <h1 class="text-3xl font-bold mb-6">Perishable Goods Inventory</h1>
 
-  <!-- Table -->
-  <div class="bg-white p-6 rounded shadow">
-    <table class="w-full text-sm table-auto">
-      <thead>
-        <tr class="bg-green-800 text-white">
-          <th class="p-2 text-left">Harvest Batch ID</th>
-          <th class="p-2 text-left">Product</th>
-          <th class="p-2 text-left">Farmer ID</th>
-          <th class="p-2 text-left">Production Date</th>
-          <th class="p-2 text-left">Expiry Date</th>
-          <th class="p-2 text-left">Damage Reason</th>
-          <th class="p-2 text-left">Quantity</th>
-          <th class="p-2 text-left">Unit Price</th>
-          <th class="p-2 text-left">Actions</th>
-        </tr>
-      </thead>
-      <tbody id="inventoryTable" class="divide-y divide-gray-200">
-        <tr>
-          <td class="p-2">01</td>
-          <td class="p-2">tomato</td>
-          <td class="p-2">2111649</td>
-          <td class="p-2">2025-04-02</td>
-          <td class="p-2">2026-04-15</td>
-          <td class="p-2">transport</td>
-          <td class="p-2">20</td>
-          <td class="p-2">12</td>
-          <td class="p-2 space-x-2">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Add</button>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Edit</button>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Update</button>
-            <button class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded">Delete</button>
-         
-           
-          </td>
-        </tr>
-        <tr>
-          <td class="p-2">02</td>
-          <td class="p-2">potato</td>
-          <td class="p-2">211564</td>
-          <td class="p-2">2025-04-01</td>
-          <td class="p-2">2027-04-21</td>
-          <td class="p-2">-</td>
-          <td class="p-2">20</td>
-          <td class="p-2">15</td>
-          <td class="p-2 space-x-2">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Add</button>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Edit</button>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Update</button>
-            <button class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded">Delete</button>
-            
-          </td>
-        </tr>
-        <tr>
-          <td class="p-2">03</td>
-          <td class="p-2">potato</td>
-          <td class="p-2">211564</td>
-          <td class="p-2">2025-04-01</td>
-          <td class="p-2">2027-04-21</td>
-          <td class="p-2">-</td>
-          <td class="p-2">20</td>
-          <td class="p-2">15</td>
-          <td class="p-2 space-x-2">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Add</button>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Edit</button>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Update</button>
-            <button class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded">Delete</button>
-            
-          </td>
-        </tr>
-        <tr>
-          <td class="p-2">04</td>
-          <td class="p-2">potato</td>
-          <td class="p-2">211564</td>
-          <td class="p-2">2025-04-01</td>
-          <td class="p-2">2027-04-21</td>
-          <td class="p-2">-</td>
-          <td class="p-2">20</td>
-          <td class="p-2">15</td>
-          <td class="p-2 space-x-2">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Add</button>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Edit</button>
-            <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Update</button>
-            <button class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded">Delete</button>
-            
-          </td>
-        </tr>
-      </tbody>
+ <!-- Table -->
+ <div class="bg-white p-6 rounded shadow">
+ <table class="w-full text-sm table-auto">
+ <thead>
+ <tr class="bg-green-800 text-white">
+ <th class="p-2 text-left">Harvest Batch ID</th>
+ <th class="p-2 text-left">Product ID</th>
+ <th class="p-2 text-left">Farmer ID</th>
+ <th class="p-2 text-left">Production Date</th>
+ <th class="p-2 text-left">Expiry Date</th>
+ <th class="p-2 text-left">ReasonsForDamageDetails</th>
+ <th class="p-2 text-left">Quantity</th>
+ <th class="p-2 text-left">Unit Price</th>
+ <th class="p-2 text-left">Actions</th>
+ </tr>
+ </thead>
+ <tbody id="inventoryTable" class="divide-y divide-gray-200">
+ <?php 
+ $query = "SELECT * FROM harvest_batch;";
+ $result = mysqli_query($conn, $query);
 
-      
-    </table>
-  </div>
-  
+ while ($row = mysqli_fetch_assoc($result)) {
+ ?>
+ <tr>
+ <td class="p-2"><?= $row['HarvestBatchId']?></td>
+ <td class="p-2"><?= $row['ProductID']?></td>
+ <td class="p-2"><?= $row['FarmerID']?></td>
+ <td class="p-2"><?= $row['ProductionDate'] ?></td>
+ <td class="p-2"><?= $row['ExpiryDate'] ?></td>
+ <td class="p-2"><?= $row['ReasonsForDamageDetails'] ?></td>
+ <td class="p-2"><?= $row['Quantity'] ?></td>
+ <td class="p-2"><?= $row['UnitPrice'] ?></td>
+ <td class="p-2 space-x-2">
+ <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Add</button>
+ <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Edit</button>
+ <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Update</button>
+ <button class="bg-red-500 hover:bg-red-700 text-white py-1 px-3 rounded">Delete</button> 
+ </td>
+ </tr>
+
+ <?php
+ }
+ ?>
+
+ </tbody>
+
+ 
+ </table>
+ </div>
+ 
+ <form method="POST" class="mt-6 bg-white p-6 rounded shadow space-y-2">
+ <input type="text" name="harvestBatchId" placeholder="Harvest Batch ID" class="p-1 w-full border-2 rounded">
+ <input type="text" name="productId" placeholder="Product ID" class="p-1 w-full border-2 rounded">
+ <input type="text" name="farmerId" placeholder="Farmer ID" class="p-1 w-full border-2 rounded">
+ <input type="date" name="productionDate" placeholder="Production Date" class="p-1 w-full border-2 rounded">
+ <input type="date" name="expiryDate" placeholder="Expiry Date" class="p-1 w-full border-2 rounded">
+ <input type="text" name="ReasonsForDamageDetails" placeholder="ReasonsForDamageDetails" class="p-1 w-full border-2 rounded">
+ <input type="text" name="quantity" placeholder="Quantity" class="p-1 w-full border-2 rounded">
+ <input type="number" name="unitPrice" placeholder="Unit Price" class="p-1 w-full border-2 rounded">
+
+ <button type="submit" name="add" class="bg-blue-500 text-white py-1 px-3 rounded">Add New Entry</button>
+ 
+ </form>
+
 </main>
 
-
-    
-
-    <!-- Table -->
-    <?php 
-                    while($row = $result->fetch_assoc()) {
-                    ?>
-                        <tr>
-                            <form method="POST" class="ajax-form">
-                                <td><?=  $row['wareHouseId'] ?>
-                                    <input type="hidden" name="warehouseId" value="<?= $row['wareHouseId'] ?>">
-                                </td>
-                                <td><?=  $row['wareHouseLocation'] ?></td>
-                                <td class="storage-columns">
-                                    <input type="text" name="temperature" value="<?=  $row['temperature'] ?>">
-                                </td>
-                                <td class="storage-columns">
-                                    <input type="text" name="humidity" value="<?=  $row['humidity'] ?>">
-                                </td>
-                                <td class="storage-columns">
-                                    <input type="text" name="status" value="<?=  $row['status'] ?>">
-                                </td>
-                                <td class="action-buttons">
-                                    <button type="button" class="update-btn update-btn-action">Update</button>
-                                    <button type="button" class="delete-btn delete-btn-action">🗑️ Delete</button>
-                                </td>
-                            </form>
-                        </tr>
-                    <?php 
-                    }
-                    ?>
-               
- 
-
-  <script src="./dashboard.js"></script>
+ <script src="./dashboard.js"></script>
 </body>
 </html>
