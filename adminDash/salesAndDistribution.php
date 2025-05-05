@@ -115,46 +115,11 @@ if ($method == 'DELETE') {
  <!-- Hero Image -->
 
  <div class="p-6 max-w-7xl mx-auto content-gap">
+  
  <!-- Page Title -->
  <div class="text-center page-title">
  <h1 class="text-4xl font-bold text-gray-800">Sales & Distribution</h1>
  <p class="text-gray-600 mt-1">Overview of your agricultural sales and product delivery</p>
- </div>
-
- <!-- Stats Cards -->
- <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
- <!-- Card 1 -->
- <div class="bg-white p-6 rounded-xl shadow text-center">
- <div class="text-blue-500 mb-2">
- <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
- <path d="M3 3h18v18H3V3z" stroke-linecap="round" stroke-linejoin="round" />
- </svg>
- </div>
- <p class="text-sm text-gray-500">Total Sales This Week</p>
- <h2 class="text-2xl font-bold text-blue-600 mt-1">1,900 kg</h2>
- </div>
-
- <!-- Card 2 -->
- <div class="bg-white p-6 rounded-xl shadow text-center">
- <div class="text-yellow-500 mb-2">
- <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
- <path d="M8 17l4 4 4-4m0-5V3m-4 14v-7" stroke-linecap="round" stroke-linejoin="round" />
- </svg>
- </div>
- <p class="text-sm text-gray-500">Pending Deliveries</p>
- <h2 class="text-2xl font-bold text-yellow-500 mt-1">3 Orders</h2>
- </div>
-
- <!-- Card 3 -->
- <div class="bg-white p-6 rounded-xl shadow text-center">
- <div class="text-green-500 mb-2">
- <svg class="w-8 h-8 mx-auto" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
- <path d="M17 20h5v-2a3 3 0 00-3-3h-4l-1-2H6a3 3 0 00-3 3v2h5m4-16v4m0 0l-3-3m3 3l3-3" stroke-linecap="round"
- stroke-linejoin="round" />
- </svg>
- </div>
- <p class="text-sm text-gray-500">Distribution Partners</p>
- <h2 class="text-2xl font-bold text-green-600 mt-1">8 Vendors</h2>
  </div>
  </div>
  
@@ -200,8 +165,7 @@ if ($method == 'DELETE') {
  <td class='px-4 py-2'><?= $row['soldTo'] ?></td>
  <td class='px-4 py-2'><?= $row['date'] ?></td>
  <td class="px-4 py-2 space-x-2">
- <button onclick="openModal('view', this)"
- class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm">View</button>
+
  <button onclick="openModal('edit', this)"
  class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 text-sm">Edit</button>
  </td>
