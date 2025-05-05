@@ -7,20 +7,20 @@ $result = mysqli_query($conn, $query);
 
 // Handle Update Action
 if (isset($_POST['update'])) {
-    $recordId = $_POST['recordId'];
+    $recordId = $_POST['record_ID'];
     $date = $_POST['date'];
     $quantityOfLoss = $_POST['quantityOfLoss'];
     $stageOfLoss = $_POST['stageOfLoss'];
     $causeOfLoss = $_POST['causeOfLoss'];
 
-    $updateQuery = "UPDATE lossrecord SET date = '$date', quantityOfLoss = '$quantityOfLoss', stageOfLoss = '$stageOfLoss', causeOfLoss = '$causeOfLoss' WHERE recordId = '$recordId';";
+    $updateQuery = "UPDATE loss_record SET date = '$date', quantityOfLoss = '$quantityOfLoss', stageOfLoss = '$stageOfLoss', causeOfLoss = '$causeOfLoss' WHERE record_ID = '$recordId';";
     mysqli_query($conn, $updateQuery);
 }
 
 // Handle Delete Action
 if (isset($_POST['delete'])) {
-    $recordId = $_POST['recordId'];
-    $deleteQuery = "DELETE FROM lossrecord WHERE recordId = '$recordId';";
+    $recordId = $_POST['record_ID'];
+    $deleteQuery = "DELETE FROM loss_record WHERE record_ID = '$recordId';";
     mysqli_query($conn, $deleteQuery);
 }
 
@@ -32,7 +32,7 @@ if (isset($_POST['add'])) {
     $newStageOfLoss = $_POST['newStageOfLoss'];
     $newCauseOfLoss = $_POST['newCauseOfLoss'];
 
-    $addQuery = "INSERT INTO lossrecord (recordId, date, quantityOfLoss, stageOfLoss, causeOfLoss) VALUES ('$newRecordId', '$newDate', '$newQuantityOfLoss', '$newStageOfLoss', '$newCauseOfLoss');";
+    $addQuery = "INSERT INTO loss_record (record_ID, date, quantityOfLoss, stageOfLoss, causeOfLoss) VALUES ('$newRecordId', '$newDate', '$newQuantityOfLoss', '$newStageOfLoss', '$newCauseOfLoss');";
     mysqli_query($conn, $addQuery);
 }
 ?>
@@ -113,8 +113,8 @@ if (isset($_POST['add'])) {
                     <?php while ($row = mysqli_fetch_assoc($result)) { ?>
                         <tr>
                             <form method="POST">
-                                <td class="py-2 px-4 border-b text-center"><?= $row['recordId'] ?>
-                                    <input type="hidden" name="recordId" value="<?= $row['recordId'] ?>">
+                                <td class="py-2 px-4 border-b text-center"><?= $row['record_ID'] ?>
+                                    <input type="hidden" name="record_ID" value="<?= $row['record_ID'] ?>">
                                 </td>
                                 <td class="py-2 px-4 border-b text-center">
                                     <input type="date" name="date" value="<?= $row['date'] ?>" class="w-full p-1 border rounded">
