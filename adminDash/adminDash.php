@@ -37,11 +37,6 @@
         <div id="logout"
         class="mt-10 hover:bg-red-800 rounded px-3 py-2 cursor-pointer">Logout</div>
 
-        
-
-        
-       
-
       </nav>
     </aside>
 

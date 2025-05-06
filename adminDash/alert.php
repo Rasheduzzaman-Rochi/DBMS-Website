@@ -1,6 +1,9 @@
 <?php
 include "../db.php"; // Use your existing database connection
 
+// Disable PHP error reporting for production
+error_reporting(0);
+
 // Fetch alerts from database
 $query = "SELECT * FROM alert"; // Correct table name
 $result = mysqli_query($conn, $query);
@@ -12,9 +15,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $type = mysqli_real_escape_string($conn, $_POST['alertType']);
         $description = mysqli_real_escape_string($conn, $_POST['description']);
         $severity = mysqli_real_escape_string($conn, $_POST['severity']);
+        $status = mysqli_real_escape_string($conn, $_POST['status']);
         
-        mysqli_query($conn, "INSERT INTO alert (alert_type, description, severity, status) 
-                           VALUES ('$type', '$description', '$severity', 'Active')"); // Correct table name
+        // Insert into database
+        $query = "INSERT INTO alert (alert_type, description, severity, status) 
+                  VALUES ('$type', '$description', '$severity', '$status')";
+        $result = mysqli_query($conn, $query);
+        
+        if (!$result) {
+            echo "Error: " . mysqli_error($conn); // Output error if query fails
+        }
     }
     
     // Update alert
@@ -28,7 +38,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Delete alert
     if (isset($_POST['delete'])) {
         $id = mysqli_real_escape_string($conn, $_POST['alertId']);
-        mysqli_query($conn, "DELETE FROM alert WHERE id = '$id'"); // Correct table name
+        
+        // Delete from the database
+        $deleteQuery = "DELETE FROM alert WHERE id = '$id'";
+        if (mysqli_query($conn, $deleteQuery)) {
+            // Redirect to refresh the page and remove the deleted row from UI
+            header("Location: ".$_SERVER['PHP_SELF']);
+            exit();
+        } else {
+            echo "Error: " . mysqli_error($conn); // Output error if query fails
+        }
     }
     
     header("Location: ".$_SERVER['PHP_SELF']); // Refresh
@@ -84,14 +103,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
     </div>
 
-    <!-- Filters -->
-    <div class="flex flex-col md:flex-row justify-end gap-4 mb-6">
-      <select id="filterType" class="px-4 py-2 border rounded-xl shadow-sm">
-        <!-- Options unchanged -->
-      </select>
-      <button onclick="applyFilters()" class="bg-green-700 hover:bg-green-600 text-white px-5 py-2 rounded-xl shadow">Apply</button>
-    </div>
-
     <!-- Alerts Table -->
     <div class="overflow-x-auto">
       <table class="min-w-full bg-white border border-gray-200 rounded-xl overflow-hidden">
@@ -112,14 +123,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               <td class="px-4 py-3"><?= htmlspecialchars($alert['alert_type']) ?></td>
               <td class="px-4 py-3"><?= htmlspecialchars($alert['description']) ?></td>
               <td class="px-4 py-3"><?= htmlspecialchars($alert['severity']) ?></td>
-              <td class="px-4 py-3">
-                <select name="status" class="border rounded px-2 py-1">
-                  <option value="Active" <?= $alert['status'] === 'Active' ? 'selected' : '' ?>>Active</option>
-                  <option value="Resolved" <?= $alert['status'] === 'Resolved' ? 'selected' : '' ?>>Resolved</option>
-                  <option value="Pending" <?= $alert['status'] === 'Pending' ? 'selected' : '' ?>>Pending</option>
-                </select>
-              </td>
+              <td class="px-4 py-3"><?= htmlspecialchars($alert['status']) ?></td>
               <td class="px-4 py-3 space-x-2">
+                <!-- Update and Delete buttons -->
                 <button type="submit" name="update" class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded-lg">Resolve</button>
                 <button type="submit" name="delete" class="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded-lg">Delete</button>
               </td>
@@ -148,6 +154,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <option value="Low">Low</option>
             <option value="Medium">Medium</option>
             <option value="High">High</option>
+          </select>
+        </div>
+        <div>
+          <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+          <select name="status" id="status" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+            <option value="Active">Active</option>
+            <option value="Resolved">Resolved</option>
+            <option value="Pending">Pending</option>
           </select>
         </div>
         <div class="md:col-span-2 text-right">
