@@ -44,12 +44,12 @@ document.getElementById("inventory").addEventListener("click", function(event) {
   document.getElementById("farmer").addEventListener("click", function(event) {
     event.preventDefault();
     console.log("button is clicked")
-    window.location.href = "./farmerDashBoard.html"
+    window.location.href = "./farmerDashBoard.php"
   });
   document.getElementById("transport").addEventListener("click", function(event) {
     event.preventDefault();
     console.log("button is clicked")
-    window.location.href = "./transporterDash.html"
+    window.location.href = "./transporterDash.php"
   });
   
 
