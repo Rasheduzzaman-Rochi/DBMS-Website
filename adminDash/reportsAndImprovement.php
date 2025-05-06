@@ -1,20 +1,23 @@
 <?php
-// Include your database connection
 include "../db.php";
 
-$method = $_SERVER['REQUEST_METHOD'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add'])) {
+  $harvest_batch = $_POST['harvest_batch'];
+  $problem = $_POST['problem'];
+  $solve = $_POST['solve'];
 
-if ($method == 'POST') {
- $harvest_batch = $_POST['harvest_batch,'];
- $problem = $_POST['problem'];
- $solve = $_POST['solve'];
+  $query = "INSERT INTO report_and_improvement (harvest_batch, problem, solve)
+            VALUES ('$harvest_batch', '$problem', '$solve');";
 
-
- $query = "INSERT INTO report_and_improvement (harvest_batch,problem,solve)
- VALUES ('$harvest_batch', '$problem', '$solve',);";
- mysqli_query($conn, $query);
- header("Location: " . $_SERVER['PHP_SELF']);
+  if (mysqli_query($conn, $query)) {
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
+  } else {
+    echo "Error: " . mysqli_error($conn);
+  }
 }
+
+
 
 // Handle Update Action
 if (isset($_POST['update'])) {
@@ -101,6 +104,10 @@ if (isset($_POST['delete']) && isset($_POST['harvestBatchId'])) {
  <th class="p-2 text-left">Problem</th>
  <th class="p-2 text-left">Solve</th>
  
+ <th class="p-2 text-left"></th>
+ <th class="p-2 text-left"></th>
+ 
+ 
  </tr>
  </thead>
  <tbody id="inventoryTable" class="divide-y divide-gray-200">
@@ -115,7 +122,7 @@ if (isset($_POST['delete']) && isset($_POST['harvestBatchId'])) {
  <td class="p-2"><?= $row['problem']?></td>
  <td class="p-2"><?= $row['solve']?></td>
 
- <td class="p-2 space-x-2">
+ <td class="p-2 space-x-2 ml-20">
  <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Add</button>
  <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Edit</button>
  <button class="bg-blue-500 hover:bg-blue-700 text-white py-1 px-3 rounded">Update</button>
@@ -172,7 +179,7 @@ if (isset($_POST['delete']) && isset($_POST['harvestBatchId'])) {
   </div> -->
 
       <form method="POST" class="mt-6 bg-white p-6 rounded shadow space-y-2">
-      <input type="text" name="Harvest Batch " placeholder="harvest_batch " class="p-1 w-full border-2 rounded">
+      <input type="text" name="harvest_batch" placeholder="harvest_batch " class="p-1 w-full border-2 rounded">
       <input type="text" name="problem" placeholder="problem" class="p-1 w-full border-2 rounded">
       <input type="text" name="solve" placeholder="solve" class="p-1 w-full border-2 rounded">
  
@@ -184,4 +191,3 @@ if (isset($_POST['delete']) && isset($_POST['harvestBatchId'])) {
  <script src="dashboard.js"></script>
 </body>
 </html>
-

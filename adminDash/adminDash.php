@@ -28,7 +28,7 @@
         <div id="Reports" class="hover:bg-green-800 rounded px-3 py-2 cursor-pointer">Reports & Improvement</div>
         <div id="farmer" class="mt-10 hover:bg-green-800 rounded px-3 py-2 cursor-pointer">Farmer</div>
         <div id="transport" class="mt-10 hover:bg-green-800 rounded px-3 py-2 cursor-pointer">Transporter</div>
-        <div id="logout" class="mt-10 hover:bg-red-800 rounded px-3 py-2 cursor-pointer">Logout</div>
+        <div id="logout" onclick="window.location.href='login.php'" class="mt-10 hover:bg-red-800 rounded px-3 py-2 cursor-pointer">Logout</div>
       </nav>
     </aside>
 
