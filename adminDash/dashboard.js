@@ -1,14 +1,14 @@
 //logout
 document.getElementById("logout").addEventListener("click",function() {
     console.log("button is clicked")
-    window.location.href = "./login.html"
+    window.location.href = "./login.php"
   })
   
 
 document.getElementById("inventory").addEventListener("click", function(event) {
     event.preventDefault();
     console.log("button is clicked")
-    window.location.href = "inventory.html"
+    window.location.href = "inventory.php"
   });
 
   document.getElementById("storageMonitor").addEventListener("click", function(event) {
@@ -52,4 +52,11 @@ document.getElementById("inventory").addEventListener("click", function(event) {
     event.preventDefault();
     console.log("button is clicked")
     window.location.href = "./transporterDash.html"
+  });
+  
+
+  document.getElementById("registerBtn").addEventListener("click", function(event) {
+    event.preventDefault();
+    console.log("button is clicked")
+    window.location.href = "./adminDash.html"
   });
