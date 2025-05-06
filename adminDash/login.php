@@ -1,4 +1,6 @@
+<?php include('db.php') ?>
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -23,21 +25,30 @@
         <div class=" p-6 rounded-lg shadow-lg w-96">
          <h1 class="text-2xl font-bold mb-4 text-center text-white">Login</h1>
        
-         <form>
-          <div class="mb-4">
+         <form  method="post" action="login.php">
+         <?php include('errors.php'); ?>
+          <div class="mb-4 input-group">
             <label for="username" class="block text-sm font-medium text-white-700">UserName</label>
             <input type="text" id="username" placeholder="UserName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
           </div>
     
-          <div class="mb-4">
+          <div class="mb-4 input-group">
             <label for="password" class="block text-sm font-medium text-white-700">Password</label>
             <input type="password" id="password" placeholder="Password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
           </div>
+
+          <div class="input-group">     
+              <button type="submit" class="w-full bg-green-500 text-white py-2 px-4 rounded-md mt-4 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">Login</button>
+     
+          </div>
+            <p>
+  	    	  Not yet a member? <a href="register.php">Sign up</a>
+  	       </p>
     
     
          
     
-          <button type="submit" class="w-full bg-green-500 text-white py-2 px-4 rounded-md mt-4 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50">Login</button>
+       
         </form>
        </div>
        </div></section>
