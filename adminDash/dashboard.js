@@ -58,5 +58,5 @@ document.getElementById("inventory").addEventListener("click", function(event) {
   document.getElementById("registerBtn").addEventListener("click", function(event) {
     event.preventDefault();
     console.log("button is clicked")
-    window.location.href = "./adminDash.html"
+    window.location.href = "./adminDash.php"
   });
